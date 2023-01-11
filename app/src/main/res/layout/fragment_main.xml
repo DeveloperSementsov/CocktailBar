@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:padding="16dp"
+    tools:context=".ui.fragment.MainFragment">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonRandomCocktail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"
+        android:text="@string/lookup_a_random_cocktail"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSearchByIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_by_ingredient"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRandomCocktail" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonFilterByAlcoholic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_by_alcoholic"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearchByIngredient" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSearchByName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_cocktail_by_name"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFilterByAlcoholic" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonCocktailsByFirstLetter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/list_all_cocktails_by_first_letter"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSearchByName" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonFilterByCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_by_category"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCocktailsByFirstLetter" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonFilterByGlass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_by_glass"
+        android:minHeight="48dp"
+        app:cornerRadius="@dimen/write_off_sells_button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFilterByCategory" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

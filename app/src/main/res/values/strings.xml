@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">CocktailBar</string>
+    <string name="image_description">Image</string>
+    <string name="instruction_title">Instruction</string>
+    <string name="ingredients_title">Ingredients and Measures</string>
+    <string name="category_title">Category</string>
+    <string name="type_title">Type</string>
+    <string name="glass_title">Glass</string>
+    <string name="about_app_menu_item">About App</string>
+    <string name="main_fragment_title">Main</string>
+    <string name="about_app_fragment_title">About Application</string>
+    <string name="random_cocktail_fragment_title">Random Cocktail</string>
+    <string name="search_by_ingredient_fragment_title">Search by ingredient</string>
+
+    <string name="hello_blank_fragment">This application is the final work of the Android Developer Professional course from Otus</string>
+    <string name="lookup_a_random_cocktail">Lookup a random cocktail</string>
+    <string name="search_by_ingredient">Search by ingredient</string>
+    <string name="filter_by_alcoholic">Filter by alcoholic</string>
+    <string name="search_cocktail_by_name">Search cocktail by name</string>
+    <string name="list_all_cocktails_by_first_letter">List all cocktails by first letter</string>
+    <string name="filter_by_category">Filter by Category</string>
+    <string name="filter_by_glass">Filter by Glass</string>
+
 </resources>
