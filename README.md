@@ -11,3 +11,8 @@ OTUS - final project work. Приложение с рецептами кокте
 
 Приложение написано на Kotlin. Retrofit для запросов к серверу. Room для кэширования. Picasso для работы с изображениями. Dagger2 для DI. 
 Kotlin coroutines.
+
+![Иллюстрация к проекту](https://github.com/DeveloperSementsov/CocktailBar/raw/master/app/src/main/res/drawable/Screenshot_1673781644.png)
+![Иллюстрация к проекту](https://github.com/DeveloperSementsov/CocktailBar/raw/master/app/src/main/res/drawable/Screenshot_1673781688.png)
+![Иллюстрация к проекту](https://github.com/DeveloperSementsov/CocktailBar/raw/master/app/src/main/res/drawable/Screenshot_1673781727.png)
+![Иллюстрация к проекту](https://github.com/DeveloperSementsov/CocktailBar/raw/master/app/src/main/res/drawable/Screenshot_1673781915.png)
