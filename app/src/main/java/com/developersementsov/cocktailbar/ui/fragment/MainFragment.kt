@@ -24,9 +24,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        requireActivity().title = requireContext().getString(R.string.main_fragment_title)
-
+        requireActivity().title = requireContext().getString(R.string.cocktail_fragment_title)
         setListeners()
     }
 
@@ -34,9 +32,10 @@ class MainFragment : Fragment() {
         with(binding) {
             buttonRandomCocktail.setOnClickListener {
                 (activity as MainActivity).startFragmentByType(
-                    RandomCocktailFragment::class.java.name
+                    CocktailFragment::class.java.name
                 )
             }
+
             buttonSearchByIngredient.setOnClickListener {
                 (activity as MainActivity).startFragmentByType(
                     IngredientFragment::class.java.name

@@ -1,11 +1,12 @@
 package com.developersementsov.cocktailbar
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import com.developersementsov.cocktailbar.ui.fragment.*
+import androidx.appcompat.app.AppCompatActivity
+import com.developersementsov.cocktailbar.ui.fragment.AboutAppFragment
+import com.developersementsov.cocktailbar.ui.fragment.CocktailsFragmentFactory
+import com.developersementsov.cocktailbar.ui.fragment.MainFragment
 
 class MainActivity : AppCompatActivity() {
     private val fragmentFactory = CocktailsFragmentFactory()
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val fragment = fragmentFactory.instantiate(classLoader, className)
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragmentContainer, fragment, className)
-            addToBackStack(null)
+            addToBackStack(className)
             commit()
         }
     }

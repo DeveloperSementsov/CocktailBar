@@ -8,13 +8,13 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
-        android:name="com.developersementsov.cocktailbar.ui.fragment.RandomCocktailFragment"
+        android:name="com.developersementsov.cocktailbar.ui.fragment.CocktailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        tools:layout="@layout/fragment_random_cocktail" />
+        tools:layout="@layout/fragment_cocktail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

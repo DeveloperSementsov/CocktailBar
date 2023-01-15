@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.developersementsov.cocktailbar.App
+import com.developersementsov.cocktailbar.MainActivity
 import com.developersementsov.cocktailbar.R
-import com.developersementsov.cocktailbar.adapter.CocktailsAdapter
-import com.developersementsov.cocktailbar.adapter.DrinkItem
 import com.developersementsov.cocktailbar.databinding.FragmentIngredientBinding
 import com.developersementsov.cocktailbar.ui.view_model.IngredientViewModel
+import com.developersementsov.cocktailbar.ui.view_model.SharedViewModel
 import com.developersementsov.cocktailbar.ui.view_model.launchWhenStarted
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
@@ -27,11 +25,13 @@ class IngredientFragment : Fragment() {
     @Inject
     lateinit var viewModel: IngredientViewModel
 
+    @Inject
+    lateinit var sharedViewModel: SharedViewModel
+
     private lateinit var _binding: FragmentIngredientBinding
     private val binding get() = _binding
-    private var ingredients: Array<String?> = emptyArray()
-    private var drinks = mutableListOf<DrinkItem>()
-    private lateinit var adapter: CocktailsAdapter
+
+    private var ingredientsArray: Array<String?> = emptyArray()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,45 +52,17 @@ class IngredientFragment : Fragment() {
 
         requireActivity().title =
             requireContext().getString(R.string.search_by_ingredient_fragment_title)
-
-        observeViewModel()
-        setAdapter()
-    }
-
-    private fun setAdapter() {
-        adapter = CocktailsAdapter(requireContext(), drinks)
-        binding.recyclerView.adapter = adapter
-        adapter.onItemClick = { drinkItem ->
-            println("${drinkItem.drinkName} pressed")
-        }
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
-        dividerItemDecoration.setDrawable(resources.getDrawable(R.drawable.divider_drawable, null))
-        binding.recyclerView.addItemDecoration(dividerItemDecoration)
-    }
-
-    private fun observeViewModel() {
         observeIngredients()
-        observeDrinks()
     }
 
     private fun observeIngredients() {
         viewModel.getIngredientsFlow()
             .filterNotNull()
-            .onEach { ing ->
-                ing.sort()
-                ing.add(0, "Select Ingredient")
-                ingredients = ing.toTypedArray()
+            .onEach { ingredients ->
+                ingredients.sort()
+                ingredients.add(0, "Select Ingredient")
+                ingredientsArray = ingredients.toTypedArray()
                 setSpinner()
-            }.launchWhenStarted(lifecycleScope)
-    }
-
-    private fun observeDrinks() {
-        viewModel.getDrinksFlow()
-            .filterNotNull()
-            .onEach {
-                drinks = it
-                setAdapter()
             }.launchWhenStarted(lifecycleScope)
     }
 
@@ -99,33 +71,36 @@ class IngredientFragment : Fragment() {
         ArrayAdapter(
             requireContext(),
             R.layout.spinner_item,
-            ingredients
+            ingredientsArray
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
             spinner.adapter = adapter
         }
 
-        spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
-                if (position != 0) {
-                    binding.spinner.visibility = View.GONE
-                    binding.recyclerView.visibility = View.VISIBLE
-                    viewModel.getByIngredient(ingredients[position].toString())
-                } else {
-                    // do nothing
-                }
-            }
+        spinner.selected { position ->
+            if (position != 0) {
+                sharedViewModel.shareSelectedIngredient(ingredientsArray[position].toString())
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+                (activity as MainActivity).startFragmentByType(
+                    CocktailListFragment::class.java.name
+                )
+            } else {
                 // do nothing
             }
         }
-
     }
 
+    private fun Spinner.selected(action: (position: Int) -> Unit) {
+        this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                action(position)
+            }
+        }
+    }
 }

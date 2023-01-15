@@ -3,6 +3,5 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_margin">16dp</dimen>
     <dimen name="default_small_margin">8dp</dimen>
-    <dimen name="write_off_sells_button_corner_radius">8dp</dimen>
-
+    <dimen name="drink_name_text_size">24sp</dimen>
 </resources>

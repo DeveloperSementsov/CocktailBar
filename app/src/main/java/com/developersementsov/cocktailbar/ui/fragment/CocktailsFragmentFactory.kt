@@ -10,7 +10,8 @@ class CocktailsFragmentFactory: FragmentFactory() {
         className: String
     ) = when (className) {
         MainFragment::class.java.name -> MainFragment()
-        RandomCocktailFragment::class.java.name -> RandomCocktailFragment()
+        CocktailFragment::class.java.name -> CocktailFragment()
+        IngredientFragment::class.java.name -> IngredientFragment()
         AboutAppFragment::class.java.name -> AboutAppFragment()
         else -> createFragmentAsFallback(classLoader, className)
     }

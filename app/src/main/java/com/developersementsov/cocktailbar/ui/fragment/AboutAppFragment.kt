@@ -1,14 +1,12 @@
 package com.developersementsov.cocktailbar.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.developersementsov.cocktailbar.MainActivity
+import androidx.fragment.app.Fragment
 import com.developersementsov.cocktailbar.R
 import com.developersementsov.cocktailbar.databinding.FragmentAboutAppBinding
-import com.developersementsov.cocktailbar.databinding.FragmentMainBinding
 
 
 class AboutAppFragment : Fragment() {

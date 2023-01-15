@@ -2,7 +2,7 @@ package com.developersementsov.cocktailbar.ui.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.developersementsov.data.entity.Drink
+import com.developersementsov.cocktailbar.adapter.DrinkItem
 import com.developersementsov.network.CocktailBarService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -12,16 +12,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RandomCocktailViewModel @Inject constructor(
+class CocktailListViewModel @Inject constructor(
     private val cocktailBarService: CocktailBarService
 ) : ViewModel() {
-    private val randomCocktailStateFlow = MutableStateFlow<Drink?>(value = null)
+    private val drinksStateFlow = MutableStateFlow<MutableList<DrinkItem>?>(value = null)
 
-    fun getRandomCocktail(){
+    fun getByIngredient(ingredient: String) {
         viewModelScope.launch(getCoroutineExceptionHandler()) {
             withContext(Dispatchers.IO) {
-                val drinks = cocktailBarService.getRandomCocktail()
-                randomCocktailStateFlow.emit(drinks?.drinks?.firstOrNull())
+                val drinks = cocktailBarService.getByIngredient(ingredient)
+                val list = mutableListOf<DrinkItem>()
+                drinks?.drinks?.forEach {
+                    list.add(
+                        DrinkItem(
+                            it.idDrink,
+                            it.strDrinkThumb,
+                            it.strDrinkName
+                        )
+                    )
+                }
+                drinksStateFlow.emit(list)
             }
         }
     }
@@ -32,5 +42,5 @@ class RandomCocktailViewModel @Inject constructor(
         }
     }
 
-    internal fun getRandomCocktailFlow(): Flow<Drink?> = randomCocktailStateFlow
+    internal fun getDrinksFlow(): Flow<MutableList<DrinkItem>?> = drinksStateFlow
 }

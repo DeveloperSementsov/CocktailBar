@@ -9,21 +9,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.developersementsov.cocktailbar.App
 import com.developersementsov.cocktailbar.R
-import com.developersementsov.cocktailbar.databinding.FragmentRandomCocktailBinding
-import com.developersementsov.cocktailbar.ui.view_model.RandomCocktailViewModel
+import com.developersementsov.cocktailbar.databinding.FragmentCocktailBinding
+import com.developersementsov.cocktailbar.ui.view_model.CocktailViewModel
+import com.developersementsov.cocktailbar.ui.view_model.SharedViewModel
 import com.developersementsov.cocktailbar.ui.view_model.launchWhenStarted
 import com.developersementsov.data.entity.Drink
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class RandomCocktailFragment : Fragment() {
+class CocktailFragment : Fragment() {
 
     @Inject
-    lateinit var viewModel: RandomCocktailViewModel
+    lateinit var viewModel: CocktailViewModel
 
-    private lateinit var _binding: FragmentRandomCocktailBinding
+    @Inject
+    lateinit var sharedViewModel: SharedViewModel
+
+    private lateinit var _binding: FragmentCocktailBinding
     private val binding get() = _binding
 
     override fun onAttach(context: Context) {
@@ -36,49 +41,70 @@ class RandomCocktailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRandomCocktailBinding.inflate(inflater, container, false)
+        _binding = FragmentCocktailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().title = requireContext().getString(R.string.random_cocktail_fragment_title)
+        requireActivity().title =
+            requireContext().getString(R.string.cocktail_fragment_title)
 
-        observeViewModel()
-        viewModel.getRandomCocktail()
-    }
+        observeCocktail()
 
-    private fun observeViewModel() {
-        observeRandomCocktail()
-    }
-
-    private fun observeRandomCocktail() {
-        viewModel.getRandomCocktailFlow()
-            .filterNotNull()
-            .onEach { drink ->
-                setImage(drink.strDrinkThumb)
-                binding.category.text = drink.strCategory
-                binding.name.text = drink.strDrinkName
-                binding.type.text = drink.strAlcoholic
-                binding.glass.text = drink.strGlass
-                binding.instructions.text = drink.strInstructions
-                setIngredients(drink)
+        sharedViewModel.getSelectedCocktailId()
+            .onEach {
+                viewModel.getCocktail(it)
             }.launchWhenStarted(lifecycleScope)
     }
 
+    override fun onStop() {
+        super.onStop()
+        sharedViewModel.shareSelectedCocktailId(null)
+    }
+
+    private fun observeCocktail() {
+        viewModel.getCocktailFlow()
+            .filterNotNull()
+            .onEach { drink ->
+                setData(drink)
+            }.launchWhenStarted(lifecycleScope)
+    }
+
+    private fun setData(drink: Drink) {
+        requireActivity().title =
+            drink.strDrinkName
+        setImage(drink.strDrinkThumb)
+        binding.category.text = drink.strCategory
+        binding.name.text = drink.strDrinkName
+        binding.type.text = drink.strAlcoholic
+        binding.glass.text = drink.strGlass
+        binding.instructions.text = drink.strInstructions
+        setIngredients(drink)
+    }
+
     private fun setImage(url: String) {
-        Picasso.get().load(url).into(binding.image)
+        Picasso.get().load(url).into(binding.image, object : Callback {
+            override fun onSuccess() {
+                binding.progressBar.visibility = View.GONE
+            }
+
+            override fun onError(e: Exception?) {
+                // do nothing
+            }
+        }
+        )
     }
 
     private fun setIngredients(drink: Drink) {
         with(binding) {
-           drink.strIngredient1?.let {
-               ingredient1.visibility = View.VISIBLE
-               measure1.visibility = View.VISIBLE
-               ingredient1.text = it
-               measure1.text = drink.strMeasure1
-           }
+            drink.strIngredient1?.let {
+                ingredient1.visibility = View.VISIBLE
+                measure1.visibility = View.VISIBLE
+                ingredient1.text = it
+                measure1.text = drink.strMeasure1
+            }
             drink.strIngredient2?.let {
                 ingredient2.visibility = View.VISIBLE
                 measure2.visibility = View.VISIBLE
